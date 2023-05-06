@@ -47,12 +47,12 @@ public:
 	}
 
 	BinaryWriter(const char* filename) {
-		std::ofstream output_file(filename, std::ios::binary);
-		str = &output_file;
+		str = new std::ofstream(filename, std::ios::binary);
 	}
 
 	void Close() {
 		str->close();
+		delete str;
 	}
 
 	std::ofstream* GetFileStream() {
@@ -131,9 +131,13 @@ public:
 		return buffer;
 	}
 
-	BinaryReader(const char* fileName) {
-		std::ifstream inputfile(fileName, std::ios::binary);
-		str = &inputfile;
+	BinaryReader(const char* filename) {
+		str = new std::ifstream(filename, std::ios::binary);
+	}
+
+	void Close() {
+		str->close();
+		delete str;
 	}
 
 	std::ifstream* GetFileStream() {
