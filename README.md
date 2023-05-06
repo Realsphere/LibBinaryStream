@@ -1,5 +1,5 @@
 # LibBinaryStream
-LibBinaryStream is a header-only, object-oriented Binary writer and reader.
+LibBinaryStream is a header-only, light weight, object-oriented Binary writer and reader.
 
 # External Dependencies
  LibBinaryStream does not have external dependencies, it only requires "fstream" and "assert.h".
