@@ -103,7 +103,7 @@ public:
 	}
 
 	template<typename T>
-	T ReadStruct() {
+	T Read() {
 		T value;
 		char buffer[sizeof(T)];
 		str->read(buffer, sizeof(T));
