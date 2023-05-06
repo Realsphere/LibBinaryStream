@@ -40,6 +40,11 @@ public:
 		str->write(reinterpret_cast<const char*>(&value), sizeof(value));
 	}
 
+	template<typename T>
+	void Write(const T& data) {
+		str->write(reinterpret_cast<const char*>(&data), sizeof(T));
+	}
+
 	void WriteString(const char* value) {
 		WriteInt(strlen(value));
 		for (size_t i = 0; i < strlen(value); i++)
@@ -69,11 +74,6 @@ public:
 		int value;
 		char buffer[sizeof(value)];
 		str->read(buffer, sizeof(value));
-#ifdef LBS_ERROR_HANDLER
-		if(str->gcount() != sizeof(value)) LBS_ERROR_HANDLER("Could not read int");
-#else
-		assert(str->gcount() != sizeof(value));
-#endif
 		std::memcpy(&value, buffer, sizeof(value));
 		return value;
 	}
@@ -82,11 +82,6 @@ public:
 		short value;
 		char buffer[sizeof(value)];
 		str->read(buffer, sizeof(value));
-#ifdef LBS_ERROR_HANDLER
-		if (str->gcount() != sizeof(value)) LBS_ERROR_HANDLER("Could not read short");
-#else
-		assert(str->gcount() != sizeof(value));
-#endif
 		std::memcpy(&value, buffer, sizeof(value));
 		return value;
 	}
@@ -95,11 +90,6 @@ public:
 		float value;
 		char buffer[sizeof(value)];
 		str->read(buffer, sizeof(value));
-#ifdef LBS_ERROR_HANDLER
-		if (str->gcount() != sizeof(value)) LBS_ERROR_HANDLER("Could not read float");
-#else
-		assert(str->gcount() != sizeof(value));
-#endif
 		std::memcpy(&value, buffer, sizeof(value));
 		return value;
 	}
@@ -108,12 +98,16 @@ public:
 		long value;
 		char buffer[sizeof(value)];
 		str->read(buffer, sizeof(value));
-#ifdef LBS_ERROR_HANDLER
-		if (str->gcount() != sizeof(value)) LBS_ERROR_HANDLER("Could not read long");
-#else
-		assert(str->gcount() != sizeof(value));
-#endif
 		std::memcpy(&value, buffer, sizeof(value));
+		return value;
+	}
+
+	template<typename T>
+	T ReadStruct() {
+		T value;
+		char buffer[sizeof(T)];
+		str->read(buffer, sizeof(T));
+		std::memcpy(&value, buffer, sizeof(T));
 		return value;
 	}
 
